@@ -12,6 +12,7 @@ import TransactionsList from './components/TransactionsList';
 import Footer from './components/Footer';
 import Logo from './components/Logo';
 import CreateGroupForm from './components/CreateGroupForm';
+import DocumentHead from './components/DocumentHead';
 import { jsonBlobService } from './services/jsonBlobService';
 
 const participantsList = [
@@ -160,86 +161,98 @@ const App = () => {
     };
 
     const renderLandingPage = () => (
-        <Container>
-            <Box
-                sx={{
-                    minHeight: '100vh',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 4
-                }}
-            >
-                <Logo />
-                <CreateGroupForm onCreate={handleGroupCreate} />
-            </Box>
-        </Container>
+        <>
+            <DocumentHead
+                title="Splitwiser - Create a New Group"
+                description="Create a new expense sharing group and start splitting costs with friends and family."
+            />
+            <Container>
+                <Box
+                    sx={{
+                        minHeight: '100vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 4
+                    }}
+                >
+                    <Logo />
+                    <CreateGroupForm onCreate={handleGroupCreate} />
+                </Box>
+            </Container>
+        </>
     );
 
     const renderGroupPage = () => (
-        <Container>
-            <Box sx={{ mb: 4, mt: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Logo
-                        variant="h4"
-                        onClick={() => window.location.href = '/'}
-                    />
-                    {groupData && (
-                        <>
-                            <Box sx={{
-                                width: '2px',
-                                height: '24px',
-                                bgcolor: 'divider',
-                                borderRadius: '1px'
-                            }} />
-                            <Typography variant="h6" color="text.secondary">
-                                {groupData.name}
-                            </Typography>
-                        </>
-                    )}
+        <>
+            <DocumentHead
+                title={`${groupData?.name || 'Group'} - Splitwiser`}
+                description={`Manage expenses and split costs with ${groupData?.participants?.length || 0} participants in your group.`}
+            />
+            <Container>
+                <Box sx={{ mb: 4, mt: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <Logo
+                            variant="h4"
+                            onClick={() => window.location.href = '/'}
+                        />
+                        {groupData && (
+                            <>
+                                <Box sx={{
+                                    width: '2px',
+                                    height: '24px',
+                                    bgcolor: 'divider',
+                                    borderRadius: '1px'
+                                }} />
+                                <Typography variant="h6" color="text.secondary">
+                                    {groupData.name}
+                                </Typography>
+                            </>
+                        )}
+                    </Box>
                 </Box>
-            </Box>
 
-            <Grid
-                container
-                spacing={2}
-            >
-                <Grid size={{
-                    xs: 12,
-                    md: 6
-                }}>
-                    <AddExpenseForm
-                        newExpense={newExpense}
-                        setNewExpense={setNewExpense}
-                        participantsList={groupData?.participants || []}
-                        payer={payer}
-                        setPayer={setPayer}
-                        handleParticipantChange={handleParticipantChange}
-                        handleAddExpense={handleAddExpense}
-                        calculateBalances={calculateBalances}
-                    />
-                </Grid>
+                <Grid
+                    container
+                    spacing={2}
+                >
+                    <Grid size={{
+                        xs: 12,
+                        md: 6
+                    }}>
+                        <AddExpenseForm
+                            newExpense={newExpense}
+                            setNewExpense={setNewExpense}
+                            participantsList={groupData?.participants || []}
+                            payer={payer}
+                            setPayer={setPayer}
+                            handleParticipantChange={handleParticipantChange}
+                            handleAddExpense={handleAddExpense}
+                            calculateBalances={calculateBalances}
+                        />
+                    </Grid>
 
-                <Grid size={{
-                    xs: 12,
-                    md: 6
-                }}>
-                    <ExpensesList
-                        expenses={expenses}
-                        handleRemoveExpense={handleRemoveExpense}
-                        isLoading={isLoading}
-                    />
-                </Grid>
+                    <Grid size={{
+                        xs: 12,
+                        md: 6
+                    }}>
+                        <ExpensesList
+                            expenses={expenses}
+                            handleRemoveExpense={handleRemoveExpense}
+                            isLoading={isLoading}
+                        />
+                    </Grid>
 
-                <Grid size={12}>
-                    <TransactionsList
-                        transactions={transactions}
-                    />
+                    <Grid size={12}>
+                        <TransactionsList
+                            transactions={transactions}
+                        />
+                    </Grid>
                 </Grid>
-            </Grid>
-            <Footer />
-        </Container>
+                <Footer />
+            </Container>
+        </>
     );
 
     return !blobId ? renderLandingPage() : renderGroupPage();
