@@ -15,14 +15,6 @@ import CreateGroupForm from './components/CreateGroupForm';
 import DocumentHead from './components/DocumentHead';
 import { jsonBlobService } from './services/jsonBlobService';
 
-const participantsList = [
-    { name: 'Proos', color: '#f44336' },
-    { name: 'Kokarn', color: '#2196f3' },
-    { name: 'Gyran', color: '#4caf50' },
-    { name: 'Matzy', color: '#ff9800' },
-    { name: 'Gabe', color: '#9c27b0' },
-];
-
 const App = () => {
     const pathId = window.location.pathname.slice(1);
     const [blobId, setBlobId] = useState(pathId);
@@ -74,7 +66,7 @@ const App = () => {
         const balances = {};
 
         // Initialize balances for all participants
-        participantsList.forEach((participant) => {
+        groupData?.participants?.forEach((participant) => {
             balances[participant.name] = 0;
         });
 
