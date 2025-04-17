@@ -16,7 +16,6 @@ const TransactionsList = ({ transactions }) => {
             elevation={3}
             sx={{
                 p: 3,
-                width: '100%',
                 backgroundColor: 'background.paper'
             }}
         >

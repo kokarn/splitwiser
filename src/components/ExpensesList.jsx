@@ -16,19 +16,19 @@ const ExpensesList = ({ expenses, handleRemoveExpense, isLoading }) => {
             elevation={3}
             sx={{
                 p: 2,
-                width: '100%'
             }}
         >
             <Typography
-                variant="h5"
                 gutterBottom
+                variant = 'h5'
             >
-                Expenses
+                {'Expenses'}
             </Typography>
             <List>
-                {isLoading ? (
+                {isLoading
+                    ? (
                     <Box
-                        display="flex"
+                        display = 'flex'
                         justifyContent="center"
                         alignItems="center"
                         minHeight={200}
