@@ -33,7 +33,7 @@ const TransactionsList = ({ transactions }) => {
                     variant="h5"
                     color="primary"
                 >
-                    Transactions
+                    How to settle up
                 </Typography>
             </Box>
             <List sx={{ p: 0 }}>
