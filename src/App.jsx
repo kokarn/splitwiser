@@ -193,10 +193,7 @@ const App = () => {
             <Container>
                 <Box sx={{ mb: 4, mt: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <Logo
-                            variant="h4"
-                            onClick={() => window.location.href = '/'}
-                        />
+                        <Logo variant="h4" />
                         {groupData && (
                             <>
                                 <Box sx={{

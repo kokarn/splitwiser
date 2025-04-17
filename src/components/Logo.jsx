@@ -1,24 +1,31 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Typography, Link } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
-const Logo = ({ variant = 'h2', onClick }) => {
+const Logo = ({ variant = 'h2' }) => {
     return (
-        <Typography
-            variant={variant}
-            onClick={onClick}
+        <Link
+            component={RouterLink}
+            to="/"
             sx={{
-                fontWeight: 'bold',
-                background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                cursor: onClick ? 'pointer' : 'default',
+                textDecoration: 'none',
                 '&:hover': {
-                    opacity: onClick ? 0.8 : 1
+                    opacity: 0.8
                 }
             }}
         >
-            Splitwiser
-        </Typography>
+            <Typography
+                variant={variant}
+                sx={{
+                    fontWeight: 'bold',
+                    background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                }}
+            >
+                Splitwiser
+            </Typography>
+        </Link>
     );
 };
 
