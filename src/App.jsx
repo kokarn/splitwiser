@@ -36,6 +36,7 @@ const App = () => {
     });
     const [payer, setPayer] = useState('');
     const [transactions, setTransactions] = useState([]);
+    const [isBackgroundLoaded, setIsBackgroundLoaded] = useState(false);
 
     const handleGroupCreate = (newBlobId) => {
         window.history.pushState({}, '', `/${newBlobId}`);
@@ -160,13 +161,64 @@ const App = () => {
         });
     };
 
+    const getBackgroundImage = () => {
+        return groupData?.background || null;
+    };
+
+    const backgroundStyles = {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: '#e6f3ff',
+        backgroundImage: `
+            linear-gradient(rgba(230, 243, 255, 0.7), rgba(230, 243, 255, 0.7)),
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")
+        `,
+        zIndex: 0,
+        '&::before': {
+            content: '""',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: groupData?.background ? `url(${groupData.background})` : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            opacity: isBackgroundLoaded ? 1 : 0,
+            transition: 'opacity 0.5s ease-in-out',
+            zIndex: 1
+        },
+        '&::after': {
+            content: '""',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 2
+        }
+    };
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = getBackgroundImage();
+        img.onload = () => {
+            setIsBackgroundLoaded(true);
+        };
+    }, [groupData?.background]);
+
     const renderLandingPage = () => (
         <>
             <DocumentHead
                 title="Splitwiser - Create a New Group"
                 description="Create a new expense sharing group and start splitting costs with friends and family."
             />
-            <Container>
+            <Box sx={backgroundStyles} />
+            <Container sx={{ position: 'relative', zIndex: 2 }}>
                 <Box
                     sx={{
                         minHeight: '100vh',
@@ -190,7 +242,8 @@ const App = () => {
                 title={`${groupData?.name || 'Group'} - Splitwiser`}
                 description={`Manage expenses and split costs with ${groupData?.participants?.length || 0} participants in your group.`}
             />
-            <Container>
+            <Box sx={backgroundStyles} />
+            <Container sx={{ position: 'relative', zIndex: 2 }}>
                 <Box sx={{ mb: 4, mt: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Logo variant="h4" />
