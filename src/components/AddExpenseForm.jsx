@@ -75,13 +75,11 @@ const AddExpenseForm = ({
                     {participantsList.map((participant) => (
                         <Grid
                             key={participant}
-                            item
-                            xs={2}
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
-                                gap: 1
+                                gap: 1,
                             }}
                         >
                             <Badge
@@ -139,13 +137,11 @@ const AddExpenseForm = ({
                     {participantsList.map((participant) => (
                         <Grid
                             key={participant}
-                            item
-                            xs={2}
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
-                                gap: 1
+                                gap: 1,
                             }}
                         >
                             <Badge
