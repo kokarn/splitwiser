@@ -6,31 +6,55 @@ const Footer = () => {
         <Box
             component="footer"
             sx={{
-                mt: 4,
-                py: 3,
+                mt: 8,
+                py: 4,
                 px: 2,
                 backgroundColor: 'background.paper',
                 borderTop: '1px solid',
                 borderColor: 'divider',
             }}
         >
-            <Typography
-                variant="body2"
-                color="text.secondary"
-                align="center"
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 2,
+                    maxWidth: '600px',
+                    mx: 'auto',
+                }}
             >
-                {'© '}
-                {new Date().getFullYear()}
-                {' Splitwiser - Made with ❤️ by '}
-                <Link
-                    color="inherit"
-                    href="https://github.com/kokarn"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    align="center"
                 >
-                    Kokarn
-                </Link>
-            </Typography>
+                    {'© '}
+                    {new Date().getFullYear()}
+                    {' Splitwiser'}
+                </Typography>
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    align="center"
+                >
+                    {'Made with ❤️ by '}
+                    <Link
+                        href="https://github.com/kokarn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{
+                            color: 'primary.main',
+                            textDecoration: 'none',
+                            '&:hover': {
+                                textDecoration: 'underline',
+                            },
+                        }}
+                    >
+                        Kokarn
+                    </Link>
+                </Typography>
+            </Box>
         </Box>
     );
 };
