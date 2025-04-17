@@ -57,12 +57,21 @@ export const jsonBlobService = {
 
     async saveExpenses(expenses, blobId) {
         try {
+            // First get the current group data
+            const currentData = await this.getGroup(blobId);
+
+            // Update only the expenses while preserving other data
+            const updatedData = {
+                ...currentData,
+                expenses
+            };
+
             const response = await fetch(`https://jsonblob.com/api/jsonBlob/${blobId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ expenses }),
+                body: JSON.stringify(updatedData),
             });
             if (!response.ok) {
                 throw new Error('Failed to save expenses');
