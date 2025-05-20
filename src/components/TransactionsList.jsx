@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Paper,
     Typography,
@@ -6,17 +7,26 @@ import {
     ListItem,
     ListItemText,
     Box,
-    Chip
+    Chip,
 } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
 const TransactionsList = ({ transactions }) => {
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('sv-SE', {
+            style: 'currency',
+            currency: 'SEK',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(amount);
+    };
+
     return (
         <Paper
             elevation={3}
             sx={{
                 p: 3,
-                backgroundColor: 'background.paper'
+                backgroundColor: 'background.paper',
             }}
         >
             <Box
@@ -24,7 +34,7 @@ const TransactionsList = ({ transactions }) => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1,
-                    mb: 3
+                    mb: 3,
                 }}
             >
                 <TrendingUpIcon color="primary" />
@@ -55,8 +65,8 @@ const TransactionsList = ({ transactions }) => {
                                 border: '1px solid',
                                 borderColor: 'divider',
                                 '&:last-child': {
-                                    mb: 0
-                                }
+                                    mb: 0,
+                                },
                             }}
                         >
                             <ListItemText
@@ -65,7 +75,7 @@ const TransactionsList = ({ transactions }) => {
                                         sx={{
                                             display: 'flex',
                                             alignItems: 'center',
-                                            gap: 1
+                                            gap: 1,
                                         }}
                                     >
                                         <Chip
@@ -77,7 +87,7 @@ const TransactionsList = ({ transactions }) => {
                                             should pay
                                         </Typography>
                                         <Chip
-                                            label={`${transaction.amount} SEK`}
+                                            label={formatCurrency(parseFloat(transaction.amount))}
                                             color="primary"
                                             size="small"
                                         />
@@ -98,6 +108,16 @@ const TransactionsList = ({ transactions }) => {
             </List>
         </Paper>
     );
+};
+
+TransactionsList.propTypes = {
+    transactions: PropTypes.arrayOf(
+        PropTypes.shape({
+            from: PropTypes.string.isRequired,
+            to: PropTypes.string.isRequired,
+            amount: PropTypes.string.isRequired,
+        })
+    ).isRequired,
 };
 
 export default TransactionsList;

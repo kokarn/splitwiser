@@ -14,6 +14,7 @@ import Logo from './components/Logo';
 import CreateGroupForm from './components/CreateGroupForm';
 import DocumentHead from './components/DocumentHead';
 import { jsonBlobService } from './services/jsonBlobService';
+import TotalPaidList from './components/TotalPaidList';
 
 const App = () => {
     const pathId = window.location.pathname.slice(1);
@@ -273,6 +274,9 @@ const App = () => {
                             handleAddExpense={handleAddExpense}
                             calculateBalances={calculateBalances}
                         />
+                        <Box sx={{ mt: 2 }}>
+                            <TotalPaidList expenses={expenses} />
+                        </Box>
                     </Grid>
 
                     <Grid size={{
@@ -287,9 +291,7 @@ const App = () => {
                     </Grid>
 
                     <Grid size={12}>
-                        <TransactionsList
-                            transactions={transactions}
-                        />
+                        <TransactionsList transactions={transactions} />
                     </Grid>
                 </Grid>
                 <Footer />
