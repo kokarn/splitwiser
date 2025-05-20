@@ -67,7 +67,7 @@ const App = () => {
 
         // Initialize balances for all participants
         groupData?.participants?.forEach((participant) => {
-            balances[participant.name] = 0;
+            balances[participant] = 0;
         });
 
         // Calculate net balances
