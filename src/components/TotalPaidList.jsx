@@ -21,12 +21,24 @@ const TotalPaidList = ({ expenses }) => {
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('sv-SE', {
-            style: 'currency',
             currency: 'SEK',
-            minimumFractionDigits: 0,
             maximumFractionDigits: 0,
+            minimumFractionDigits: 0,
+            style: 'currency',
         }).format(amount);
     };
+
+    // Calculate total amount
+    const totalAmount = Object.values(totalPaid).reduce((sum, amount) => sum + amount, 0);
+
+    // Convert to array and sort by amount (low to high)
+    const sortedPayments = Object.entries(totalPaid)
+        .map(([person, amount]) => ({
+            amount,
+            person,
+            percentage: (amount / totalAmount) * 100,
+        }))
+        .sort((a, b) => a.amount - b.amount);
 
     return (
         <Paper
@@ -40,40 +52,79 @@ const TotalPaidList = ({ expenses }) => {
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 1,
+                    justifyContent: 'space-between',
                     mb: 3,
                 }}
             >
-                <AccountBalanceIcon color="primary" />
-                <Typography
-                    variant="h5"
-                    color="primary"
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                    }}
                 >
-                    Total Paid
-                </Typography>
+                    <AccountBalanceIcon color="primary" />
+                    <Typography
+                        variant="h5"
+                        color="primary"
+                    >
+                        Total Paid
+                    </Typography>
+                </Box>
+                <Chip
+                    label={formatCurrency(totalAmount)}
+                    color="primary"
+                />
             </Box>
-            <Box>
-                {Object.entries(totalPaid).map(([person, amount]) => (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {sortedPayments.map(({ person, amount, percentage }) => (
                     <Box
                         key={person}
                         sx={{
                             display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            mb: 1,
-                            p: 1,
-                            backgroundColor: 'background.default',
-                            borderRadius: 1,
+                            flexDirection: 'column',
+                            gap: 0.5,
                         }}
                     >
-                        <Typography variant="body1">
-                            {person}
-                        </Typography>
-                        <Chip
-                            label={formatCurrency(amount)}
-                            color="primary"
-                            size="small"
-                        />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Typography variant="body1">
+                                {person}
+                            </Typography>
+                            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                                <Typography variant="body2" color="text.secondary">
+                                    {percentage.toFixed(1)}%
+                                </Typography>
+                                <Chip
+                                    label={formatCurrency(amount)}
+                                    color="primary"
+                                    size="small"
+                                />
+                            </Box>
+                        </Box>
+                        <Box
+                            sx={{
+                                height: 24,
+                                width: '100%',
+                                backgroundColor: 'background.default',
+                                borderRadius: 1,
+                                overflow: 'hidden',
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    height: '100%',
+                                    width: `${percentage}%`,
+                                    backgroundColor: 'primary.main',
+                                    transition: 'width 0.5s ease-in-out',
+                                }}
+                            />
+                        </Box>
                     </Box>
                 ))}
             </Box>
