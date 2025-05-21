@@ -9,14 +9,20 @@ import {
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 const TotalPaidList = ({ expenses }) => {
-    // Calculate total paid by each person
+    // Calculate total paid by each person, only including expenses shared between all participants
     const totalPaid = {};
 
+    // Get all unique participants from all expenses
+    const allParticipants = [...new Set(expenses.flatMap(expense => expense.participants))];
+
     expenses.forEach((expense) => {
-        if (!totalPaid[expense.payer]) {
-            totalPaid[expense.payer] = 0;
+        // Only include expenses where all participants are involved
+        if (expense.participants.length === allParticipants.length) {
+            if (!totalPaid[expense.payer]) {
+                totalPaid[expense.payer] = 0;
+            }
+            totalPaid[expense.payer] = totalPaid[expense.payer] + parseFloat(expense.amount);
         }
-        totalPaid[expense.payer] = totalPaid[expense.payer] + parseFloat(expense.amount);
     });
 
     const formatCurrency = (amount) => {
@@ -68,7 +74,7 @@ const TotalPaidList = ({ expenses }) => {
                         variant="h5"
                         color="primary"
                     >
-                        Total Paid
+                        Total Paid (Shared Expenses)
                     </Typography>
                 </Box>
                 <Chip
